@@ -1,0 +1,41 @@
+# Function to generate random workers
+generate_workers <- function(num_workers = 400) {
+  workers <- list()
+  for (i in 1:num_workers) {
+    name <- paste("Employee", i)
+    salary <- sample(5000:35000, 1)  # Random salary between $5000 and $35000
+    gender <- sample(c("M", "F"), 1)  # Random gender assignment (M or F)
+    workers[[i]] <- list(name = name, salary = salary, gender = gender)
+  }
+  return(workers)
+}
+
+# Function to generate payment slips
+generate_payment_slips <- function(workers) {
+  for (worker in workers) {
+    tryCatch({
+      salary <- worker$salary
+      gender <- worker$gender
+      level <- "Others"  # Default level if no conditions match
+      
+      # Conditional Statements for Employee Level
+      if (salary > 10000 & salary < 20000) {
+        level <- "A1"
+      } else if (salary > 7500 & salary < 30000 & gender == "F") {
+        level <- "A5-F"
+      }
+      
+      # Generating payment slip for the worker
+      print(paste("Employee:", worker$name, "Salary:", salary, "Level:", level))
+    }, error = function(e) {
+      print(paste("Error processing", worker$name, ":", e$message))
+    })
+  }
+}
+
+# Step 1: Generate 400 workers dynamically
+workers <- generate_workers()
+
+# Step 2: Generate and print payment slips for each worker
+generate_payment_slips(workers)
+

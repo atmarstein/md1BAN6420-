@@ -1,0 +1,39 @@
+import random
+
+# Function to generate random workers
+def generate_workers(num_workers=400):
+    workers = []
+    for i in range(num_workers):
+        name = f"Employee_{i+1}"
+        salary = random.randint(5000, 35000)  # Random salary between $5000 and $35000
+        gender = random.choice(["M", "F"])  # Random gender assignment (M or F)
+        workers.append({"name": name, "salary": salary, "gender": gender})
+    return workers
+
+# Function to generate payment slips
+def generate_payment_slips(workers):
+    for worker in workers:
+        try:
+            salary = worker["salary"]
+            gender = worker["gender"]
+            level = "Others"  # Default level if no conditions match
+
+            # Conditional Statements for Employee Level
+            if 10000 < salary < 20000:
+                level = "A1"
+            elif 7500 < salary < 30000 and gender == "F":
+                level = "A5-F"
+            
+            # Generating payment slip for the worker
+            print(f"Employee: {worker['name']}, Salary: ${salary}, Level: {level}")
+        
+        except KeyError as e:
+            print(f"Missing data for {worker['name']}. Error: {e}")
+        except Exception as e:
+            print(f"Error processing {worker['name']}. Error: {e}")
+
+# Step 1: Generate 400 workers dynamically
+workers = generate_workers()
+
+# Step 2: Generate and print payment slips for each worker
+generate_payment_slips(workers)
